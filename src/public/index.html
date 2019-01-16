@@ -128,7 +128,7 @@
                 $("#" + id + " span#progress").css("flex", percent/100 + " 0 0%").css("background", color).text(percent + '%');
             });
 
-            xhr.open("POST", "/fileupload");
+            xhr.open("POST", window.location.pathname + "fileupload");
             xhr.send(data);
         }
     </script>
