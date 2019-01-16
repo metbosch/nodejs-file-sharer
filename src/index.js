@@ -6,13 +6,11 @@ var formidable = require('formidable');
 
 var app = express();
 
-const FILE_DIR = null;
-const MAX_FILE_SIZE = null;
-const LISTEN_PORT = null;
+const LISTEN_PORT = 1453;
+const PUBLIC_PATH = path.join(__dirname, 'public');
+const UPLOAD_PATH = path.join(__dirname, '..', 'uploaded_files');
 
-const publicPath = path.join(__dirname, 'public');
-
-app.use(express.static(publicPath));
+app.use(express.static(PUBLIC_PATH));
 
 app.post('/fileupload', function (req, res) {
     var form = new formidable.IncomingForm();
@@ -28,7 +26,7 @@ app.post('/fileupload', function (req, res) {
         }
 
         var oldpath = files.fileupload.path;
-        var newpath = FILE_DIR || path.join(__dirname, '..', 'uploaded_files', files.fileupload.name);
+        var newpath = path.join(UPLOAD_PATH, files.fileupload.name);
 
         fs.rename(oldpath, newpath, function (err) {
             if (err) {
@@ -45,6 +43,6 @@ app.post('/fileupload', function (req, res) {
     });
 });
 
-app.listen(LISTEN_PORT || 1453, function (url) {
-    console.log('NodeJS File SHARER open in ', url);
+app.listen(LISTEN_PORT, function () {
+    console.log('NodeJS File SHARER server listening on port %s', LISTEN_PORT);
 });
