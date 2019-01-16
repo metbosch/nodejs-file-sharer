@@ -93,16 +93,21 @@
 
             var xhr = new XMLHttpRequest();
 
-            function finallyXHR() {
+            function finallyXHR(err) {
                 var index = uploading.indexOf(id);
                 if (index !== -1) {
                     uploading.splice(index, 1);
+                }
+
+                if (err || xhr.status !== 200) {
+                    var errTxt = err ? err.message : ('ERRORCODE: ' + xhr.status);
+                    $("#" + id + " span#progress").css("background", "#b00020").text(errTxt);
                 }
             }
 
             xhr.onerror = (err) => {
                 xhr.onreadystatechange = null;
-                finallyXHR();
+                finallyXHR(err);
             };
 
             xhr.onreadystatechange = () => {
