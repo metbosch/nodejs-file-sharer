@@ -11,9 +11,17 @@ const PUBLIC_PATH = path.join(__dirname, 'public');
 const UPLOAD_PATH = path.join(__dirname, '..', 'uploaded_files');
 const TMP_PATH = path.join(UPLOAD_PATH, '.loading');
 
-//Try to create UPLOAD and TMP directories
+//Try to create UPLOAD folder
 try {
-    fs.mkdirSync(TMP_PATH, {recursive: true});
+    fs.mkdirSync(UPLOAD_PATH);
+}
+catch (err) {
+  if (err.code !== 'EEXIST') throw err;
+}
+
+//Try to create TMP folder
+try {
+    fs.mkdirSync(TMP_PATH);
 }
 catch (err) {
   if (err.code !== 'EEXIST') throw err;
